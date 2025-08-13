@@ -1,0 +1,43 @@
+version: 1
+
+
+formatters:
+  simple:
+    format: "%(asctime)s [%(levelname)s] %(message)s"
+    datefmt: "%H:%M:%S"
+
+  detailed:
+    format: "%(asctime)s [%(levelname)s] [%(name)s] [%(filename)s:%(lineno)d] (%(funcName)s) - %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
+  json:
+    "()": pythonjsonlogger.jsonlogger.JsonFormatter
+    format: '%(created)f %(asctime)s %(levelname)s %(name)s %(filename)s %(lineno)d %(funcName)s %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+
+handlers:
+  console_handler:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: simple
+
+  file_debug_handler:
+    class: logging.FileHandler
+    filename: logs/DEBUG.log
+    level: DEBUG
+    formatter: detailed
+
+  file_debug_json_handler:
+    class: logging.FileHandler
+    filename: logs/DEBUG.json
+    level: DEBUG
+    formatter: json
+
+loggers:
+  src:
+    level: DEBUG
+
+root:
+  level: DEBUG
+  handlers: [console_handler, file_debug_handler, file_debug_json_handler]
+  propagate: False
